@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -24,9 +25,22 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    @GetMapping("/student/{idStudent}")
+    public ResponseEntity<?> getStudentById(@PathVariable Long idStudent) {
+        Optional<Student> student = studentService.getStudentById(idStudent);
+        return student.isPresent() ? ResponseEntity.ok(student.get()) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("student with id " + idStudent + " not found");
+    }
+
     @PostMapping("/student")
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
-        Student newStudent = studentService.createStudent(studentDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Estudiante creado con exito " + newStudent);
+        try {
+            Student newStudent = studentService.createStudent(studentDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newStudent);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error: " + e.getMessage());
+        }
     }
+
+
 }

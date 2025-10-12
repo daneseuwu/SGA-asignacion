@@ -4,6 +4,7 @@ import com.dbz.SGA_asignacion.dto.StudentDTO;
 import com.dbz.SGA_asignacion.model.Student;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StudentService {
     //Crete
@@ -11,7 +12,7 @@ public interface StudentService {
 
     //read
     List<Student> getAllStudents();
-//    List<Student> getAllsStudentByStatus();
+    Optional<Student> getStudentById(Long idStudent);
 
     //update
     Student updateStudent(Long idStudent, StudentDTO studentDTO);
