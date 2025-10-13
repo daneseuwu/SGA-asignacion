@@ -38,11 +38,19 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student updateStudent(Long idStudent, StudentDTO studentDTO) {
-        return null;
+        Student student = studentRepository.findById(idStudent)
+                .orElseThrow(() -> new RuntimeException("Student not found with id: " + idStudent));
+
+        studentMapper.updateModelFromDto(studentDTO, student);
+        return studentRepository.save(student);
+
     }
 
     @Override
     public void deleteStudent(Long idStudent) {
+        Student student = studentRepository.findById(idStudent)
+                .orElseThrow(() -> new RuntimeException("Student not found with id: " + idStudent));
 
+        studentRepository.deleteById(idStudent);
     }
 }

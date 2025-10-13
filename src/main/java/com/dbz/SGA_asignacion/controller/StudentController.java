@@ -19,6 +19,16 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    @PostMapping("/student")
+    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
+        try {
+            Student newStudent = studentService.createStudent(studentDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newStudent);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/students/alls")
     public ResponseEntity<List<Student>> getAllStudents() {
         List<Student> students = studentService.getAllStudents();
@@ -27,20 +37,38 @@ public class StudentController {
 
     @GetMapping("/student/{idStudent}")
     public ResponseEntity<?> getStudentById(@PathVariable Long idStudent) {
-        Optional<Student> student = studentService.getStudentById(idStudent);
-        return student.isPresent() ? ResponseEntity.ok(student.get()) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("student with id " + idStudent + " not found");
-    }
-
-    @PostMapping("/student")
-    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
         try {
-            Student newStudent = studentService.createStudent(studentDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newStudent);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Error: " + e.getMessage());
+            Optional<Student> student = studentService.getStudentById(idStudent);
+
+            if (student.isPresent()) {
+                return ResponseEntity.ok(student.get());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Student with id " + idStudent + " not found");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
+    @PutMapping("/student/{idStudent}")
+    public ResponseEntity<?> updatedStudent(@PathVariable Long idStudent, @Valid @RequestBody StudentDTO studentDTO) {
+        try {
+            Student updatedStudent = studentService.updateStudent(idStudent, studentDTO);
+            return ResponseEntity.ok(updatedStudent);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/student/{idStudent}")
+    public ResponseEntity<?> deleteStudent(@PathVariable Long idStudent) {
+        try {
+            studentService.deleteStudent(idStudent);
+            return ResponseEntity.ok("Product deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
 
 }
