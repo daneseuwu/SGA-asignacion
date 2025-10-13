@@ -52,7 +52,7 @@ public class StudentMapper {
         return dto;
     }
 
-    public void updateFromDTO(StudentDTO dto, Student student) {
+    public void updateModelFromDto(StudentDTO dto, Student student) {
         student.setFirstName(dto.getFirstName());
         student.setLastName(dto.getLastName());
         student.setEmail(dto.getEmail());
