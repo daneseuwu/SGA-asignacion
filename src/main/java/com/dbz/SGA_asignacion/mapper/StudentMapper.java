@@ -13,20 +13,20 @@ public class StudentMapper {
     @Autowired
     private CareerRepository careerRepository;
 
-    public Student toModel(StudentDTO studentDTO) {
+    public Student dtoToModel(StudentDTO dto) {
         Student student = new Student();
 
-        student.setFirstName(studentDTO.getFirstName());
-        student.setLastName(studentDTO.getLastName());
-        student.setEmail(studentDTO.getEmail());
-        student.setStudentCode(studentDTO.getStudentCode());
-        student.setPhoneNumber(studentDTO.getPhoneNumber());
-        student.setBirthDate(studentDTO.getBirthDate());
-        student.setStatus(studentDTO.getStatus());
+        student.setFirstName(dto.getFirstName());
+        student.setLastName(dto.getLastName());
+        student.setEmail(dto.getEmail());
+        student.setStudentCode(dto.getStudentCode());
+        student.setPhoneNumber(dto.getPhoneNumber());
+        student.setBirthDate(dto.getBirthDate());
+        student.setStatus(dto.getStatus());
 
-        if (studentDTO.getCareerId() != null) {
-            Career career = careerRepository.findById(studentDTO.getCareerId())
-                    .orElseThrow(() -> new RuntimeException("Career not found with id: " + studentDTO.getCareerId()));
+        if (dto.getCareerId() != null) {
+            Career career = careerRepository.findById(dto.getCareerId())
+                    .orElseThrow(() -> new RuntimeException("Career not found with id: " + dto.getCareerId()));
             student.setCareer(career);
         }
 
@@ -34,7 +34,7 @@ public class StudentMapper {
         return student;
     }
 
-    public StudentDTO toDTO(Student student) {
+    public StudentDTO modelToDto(Student student) {
         StudentDTO dto = new StudentDTO();
 
         dto.setFirstName(student.getFirstName());
@@ -52,18 +52,18 @@ public class StudentMapper {
         return dto;
     }
 
-    public void updateFromDTO(StudentDTO studentDTO, Student student) {
-        student.setFirstName(studentDTO.getFirstName());
-        student.setLastName(studentDTO.getLastName());
-        student.setEmail(studentDTO.getEmail());
-        student.setStudentCode(studentDTO.getStudentCode());
-        student.setPhoneNumber(studentDTO.getPhoneNumber());
-        student.setBirthDate(studentDTO.getBirthDate());
-        student.setStatus(studentDTO.getStatus());
+    public void updateFromDTO(StudentDTO dto, Student student) {
+        student.setFirstName(dto.getFirstName());
+        student.setLastName(dto.getLastName());
+        student.setEmail(dto.getEmail());
+        student.setStudentCode(dto.getStudentCode());
+        student.setPhoneNumber(dto.getPhoneNumber());
+        student.setBirthDate(dto.getBirthDate());
+        student.setStatus(dto.getStatus());
 
-        if (studentDTO.getCareerId() != null) {
-            Career career = careerRepository.findById(studentDTO.getCareerId())
-                    .orElseThrow(() -> new RuntimeException("Career not found with id: " + studentDTO.getCareerId()));
+        if (dto.getCareerId() != null) {
+            Career career = careerRepository.findById(dto.getCareerId())
+                    .orElseThrow(() -> new RuntimeException("Career not found with id: " + dto.getCareerId()));
             student.setCareer(career);
         }
     }

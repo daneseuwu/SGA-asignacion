@@ -22,7 +22,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student createStudent(StudentDTO studentDTO) {
-        Student student = studentMapper.toModel(studentDTO);
+        Student student = studentMapper.dtoToModel(studentDTO);
         return studentRepository.save(student);
     }
 
