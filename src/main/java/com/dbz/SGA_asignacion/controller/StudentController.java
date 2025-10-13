@@ -19,7 +19,7 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @PostMapping("/student")
+    @PostMapping("/students")
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
         try {
             Student newStudent = studentService.createStudent(studentDTO);
@@ -29,7 +29,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/students/alls")
+    @GetMapping("/students")
     public ResponseEntity<List<Student>> getAllStudents() {
         List<Student> students = studentService.getAllStudents();
         return ResponseEntity.ok(students);
