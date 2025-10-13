@@ -1,12 +1,16 @@
 package com.dbz.SGA_asignacion.repository;
 
+import com.dbz.SGA_asignacion.enums.Status;
 import com.dbz.SGA_asignacion.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByStudentCode(String studentCode);
+
+    List<Student> findByStatus(Status status);
 }

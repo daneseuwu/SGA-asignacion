@@ -1,6 +1,7 @@
 package com.dbz.SGA_asignacion.controller;
 
 import com.dbz.SGA_asignacion.dto.StudentDTO;
+import com.dbz.SGA_asignacion.enums.Status;
 import com.dbz.SGA_asignacion.model.Student;
 import com.dbz.SGA_asignacion.services.StudentService;
 import jakarta.validation.Valid;
@@ -9,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -34,6 +37,17 @@ public class StudentController {
         List<Student> students = studentService.getAllStudents();
         return ResponseEntity.ok(students);
     }
+
+    @GetMapping("/students/status/{status}")
+    public ResponseEntity<?> getAllStudentByStatus(@PathVariable Status status) {
+        List<Student> students = studentService.getStudentByStatus(status);
+
+        if (students.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(status);
+        }
+        return ResponseEntity.ok(students);
+    }
+
 
     @GetMapping("/student/{idStudent}")
     public ResponseEntity<?> getStudentById(@PathVariable Long idStudent) {
