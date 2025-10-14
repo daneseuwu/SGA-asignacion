@@ -2,6 +2,7 @@ package com.dbz.SGA_asignacion.services.impl;
 
 import com.dbz.SGA_asignacion.dto.StudentDTO;
 import com.dbz.SGA_asignacion.enums.Status;
+import com.dbz.SGA_asignacion.exceptions.ResourceNotFoundException;
 import com.dbz.SGA_asignacion.mapper.StudentMapper;
 import com.dbz.SGA_asignacion.model.Student;
 import com.dbz.SGA_asignacion.repository.StudentRepository;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -32,19 +32,17 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findAll();
     }
 
-    //    @Override
-//    public List<Student> getAllsStudentBydStatus(String status) {
-//        return studentRepository.findStudentByStatus(status);
-//    }
-//    public List<Student> getStudentsByStatus(String statusStr) {
-//        Status status = Status.fromString(statusStr); // Valida el string
-//        return studentRepository.findByStatus(status);
+//    @Override
+//    public Optional<Student> getStudentById(Long idStudent) {
+//        return studentRepository.findById(idStudent);
 //    }
 
     @Override
-    public Optional<Student> getStudentById(Long idStudent) {
-        return studentRepository.findById(idStudent);
+    public Student getStudentById(Long idStudent) {
+        return studentRepository.findById(idStudent)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found!"));
     }
+
 
     @Override
     public List<Student> getStudentByStatus(Status status) {
@@ -53,8 +51,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student updateStudent(Long idStudent, StudentDTO studentDTO) {
-        Student student = studentRepository.findById(idStudent)
-                .orElseThrow(() -> new RuntimeException("Student not found with id: " + idStudent));
+        Student student = studentRepository.findById(idStudent).orElseThrow(() -> new RuntimeException("Student not found with id: " + idStudent));
 
         studentMapper.updateModelFromDto(studentDTO, student);
         return studentRepository.save(student);
@@ -63,9 +60,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudent(Long idStudent) {
-        Student student = studentRepository.findById(idStudent)
-                .orElseThrow(() -> new RuntimeException("Student not found with id: " + idStudent));
+        Student student = studentRepository.findById(idStudent).orElseThrow(() -> new RuntimeException("Student not found with id: " + idStudent));
 
         studentRepository.deleteById(idStudent);
     }
+
+
 }
