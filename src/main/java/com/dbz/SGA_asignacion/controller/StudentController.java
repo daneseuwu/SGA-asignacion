@@ -2,7 +2,9 @@ package com.dbz.SGA_asignacion.controller;
 
 import com.dbz.SGA_asignacion.dto.StudentDTO;
 import com.dbz.SGA_asignacion.enums.Status;
+import com.dbz.SGA_asignacion.exceptions.ResourceNotFoundException;
 import com.dbz.SGA_asignacion.model.Student;
+import com.dbz.SGA_asignacion.response.StudentResponse;
 import com.dbz.SGA_asignacion.services.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -43,25 +44,20 @@ public class StudentController {
         List<Student> students = studentService.getStudentByStatus(status);
 
         if (students.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(status);
+            return ResponseEntity.status(NOT_FOUND).body(status);
         }
         return ResponseEntity.ok(students);
     }
 
 
     @GetMapping("/student/{idStudent}")
-    public ResponseEntity<?> getStudentById(@PathVariable Long idStudent) {
+    public ResponseEntity<StudentResponse> getStudentById(@PathVariable Long idStudent) {
         try {
-            Optional<Student> student = studentService.getStudentById(idStudent);
 
-            if (student.isPresent()) {
-                return ResponseEntity.ok(student.get());
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Student with id " + idStudent + " not found");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            Student student = studentService.getStudentById(idStudent);
+            return ResponseEntity.ok(new StudentResponse("success", student));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new  StudentResponse(e.getMessage(),null));
         }
     }
 
