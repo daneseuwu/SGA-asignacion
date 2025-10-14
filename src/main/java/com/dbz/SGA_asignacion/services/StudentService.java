@@ -26,7 +26,8 @@ public interface StudentService {
     void deleteStudent(Long idStudent);
 
     //optionals
-    Optional<Student> getStudentById(Long idStudent);
+    Student getStudentById(Long idStudent);
+
     List<Student> getStudentByStatus(Status status);
 
 }
