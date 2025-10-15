@@ -27,7 +27,8 @@ public class StudentController {
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
         try {
             Student newStudent = studentService.createStudent(studentDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newStudent);
+            return ResponseEntity.ok(new StudentResponse("Product created successfully", newStudent));
+
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
         }
@@ -63,9 +64,9 @@ public class StudentController {
     public ResponseEntity<?> updatedStudent(@PathVariable Long idStudent, @Valid @RequestBody StudentDTO studentDTO) {
         try {
             Student updatedStudent = studentService.updateStudent(idStudent, studentDTO);
-            return ResponseEntity.ok(updatedStudent);
+            return ResponseEntity.ok(new StudentResponse("Product updated successfully", updatedStudent));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+            return ResponseEntity.status(NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
     }
 
@@ -73,9 +74,9 @@ public class StudentController {
     public ResponseEntity<?> deleteStudent(@PathVariable Long idStudent) {
         try {
             studentService.deleteStudent(idStudent);
-            return ResponseEntity.ok("Product deleted successfully");
+            return ResponseEntity.ok(new StudentResponse("Product deleted successfully", null));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+            return ResponseEntity.status(NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
     }
 
