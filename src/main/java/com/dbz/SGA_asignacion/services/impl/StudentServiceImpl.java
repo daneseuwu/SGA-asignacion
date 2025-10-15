@@ -67,6 +67,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student updateStudentStatus(Long idStudent, Status newStudentStatus) {
+        Student student = studentRepository.findById(idStudent).orElseThrow(() -> new ResourceNotFoundException("Student with id " + idStudent + " not found"));
+
+        student.setStatus(newStudentStatus);
+        return studentRepository.save(student);
+    }
+
+    @Override
     public void deleteStudent(Long idStudent) {
         studentRepository.findById(idStudent).orElseThrow(() -> new ResourceNotFoundException("Student with id " + idStudent + " not found"));
     }
