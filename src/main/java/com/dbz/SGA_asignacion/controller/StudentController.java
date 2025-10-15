@@ -58,16 +58,14 @@ public class StudentController {
             try {
                 statusEnum = Status.valueOf(status.toLowerCase());
             } catch (IllegalArgumentException e) {
-                return ResponseEntity.badRequest()
-                        .body(new StudentResponse("Invalid status value. Accepted: active, graduate, suspended", null));
+                return ResponseEntity.badRequest().body(new StudentResponse("Invalid status value. Accepted: active, graduate, suspended", null));
             }
 
             List<Student> students = studentService.getStudentByStatus(statusEnum);
             return ResponseEntity.ok(new StudentResponse("Success", students));
 
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new StudentResponse(e.getMessage(), null));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
     }
 
@@ -77,8 +75,7 @@ public class StudentController {
             List<Student> students = studentService.getStudentByCareerId(careerId);
             return ResponseEntity.ok(new StudentResponse("Success", students));
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new StudentResponse(e.getMessage(), null));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
     }
 
@@ -93,10 +90,28 @@ public class StudentController {
     }
 
     @PatchMapping("/student/status/{idStudent}")
-    public ResponseEntity<?> updateStudentStatus(@PathVariable Long idStudent, @RequestBody Map<String, Status> request) {
-        Status status = request.get("status");
-        Student updatedProduct = studentService.updateStudentStatus(idStudent, status);
-        return ResponseEntity.ok(updatedProduct);
+    public ResponseEntity<?> updateStudentStatus(@PathVariable Long idStudent, @RequestBody Map<String, String> request) { // 👈 aquí uso String para manejar mejor la validación
+        try {
+            String statusValue = request.get("status");
+            if (statusValue == null || statusValue.isBlank()) {
+                return ResponseEntity.badRequest().body(new StudentResponse("Missing 'status' field in request body", null));
+            }
+
+            Status statusEnum;
+            try {
+                statusEnum = Status.valueOf(statusValue.toLowerCase());
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest().body(new StudentResponse("Invalid status value. Accepted: active, graduate, suspended", null));
+            }
+
+            Student updatedStudent = studentService.updateStudentStatus(idStudent, statusEnum);
+            return ResponseEntity.ok(new StudentResponse("Status updated successfully", updatedStudent));
+
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new StudentResponse("Unexpected error: " + e.getMessage(), null));
+        }
     }
 
     @DeleteMapping("/student/{idStudent}")

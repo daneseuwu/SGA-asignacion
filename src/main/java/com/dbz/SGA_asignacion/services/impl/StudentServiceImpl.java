@@ -53,7 +53,6 @@ public class StudentServiceImpl implements StudentService {
         if (students.isEmpty()) {
             throw new ResourceNotFoundException("No students found with status: " + status);
         }
-
         return students;
     }
 
