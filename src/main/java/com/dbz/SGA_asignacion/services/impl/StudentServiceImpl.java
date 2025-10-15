@@ -32,15 +32,10 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findAll();
     }
 
-//    @Override
-//    public Optional<Student> getStudentById(Long idStudent) {
-//        return studentRepository.findById(idStudent);
-//    }
-
     @Override
     public Student getStudentById(Long idStudent) {
         return studentRepository.findById(idStudent)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student with id " + idStudent + " not found"));
     }
 
 
