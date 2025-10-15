@@ -39,16 +39,6 @@ public class StudentController {
         return ResponseEntity.ok(new StudentResponse("Success", students));
     }
 
-    @GetMapping("/students/status/{status}")
-    public ResponseEntity<?> getAllStudentByStatus(@PathVariable Status status) {
-        List<Student> students = studentService.getStudentByStatus(status);
-
-        if (students.isEmpty()) {
-            return ResponseEntity.status(NOT_FOUND).body(status);
-        }
-        return ResponseEntity.ok(students);
-    }
-
     @GetMapping("/student/{idStudent}")
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable Long idStudent) {
         try {
@@ -57,6 +47,16 @@ public class StudentController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
+    }
+
+    @GetMapping("/students/status/{status}")
+    public ResponseEntity<?> getAllStudentByStatus(@PathVariable Status status) {
+        List<Student> students = studentService.getStudentByStatus(status);
+
+        if (students.isEmpty()) {
+            return ResponseEntity.status(NOT_FOUND).body(status);
+        }
+        return ResponseEntity.ok(students);
     }
 
     @PutMapping("/student/{idStudent}")
