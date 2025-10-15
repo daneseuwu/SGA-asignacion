@@ -34,20 +34,32 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudentById(Long idStudent) {
-        return studentRepository.findById(idStudent)
-                .orElseThrow(() -> new ResourceNotFoundException("Student with id " + idStudent + " not found"));
+        return studentRepository.findById(idStudent).orElseThrow(() -> new ResourceNotFoundException("Student with id " + idStudent + " not found"));
     }
 
+    @Override
+    public List<Student> getStudentByCareerId(Long idCareer) {
+        List<Student> students = studentRepository.getStudentByCareerId(idCareer);
+        if (students.isEmpty()) {
+            throw new ResourceNotFoundException("No students found for career ID " + idCareer);
+        }
+        return students;
+    }
 
     @Override
     public List<Student> getStudentByStatus(Status status) {
-        return studentRepository.findByStatus(status);
+        List<Student> students = studentRepository.findByStatus(status);
+
+        if (students.isEmpty()) {
+            throw new ResourceNotFoundException("No students found with status: " + status);
+        }
+
+        return students;
     }
 
     @Override
     public Student updateStudent(Long idStudent, StudentDTO studentDTO) {
-        Student student = studentRepository.findById(idStudent)
-                .orElseThrow(() -> new ResourceNotFoundException("Student with id " + idStudent + " not found"));
+        Student student = studentRepository.findById(idStudent).orElseThrow(() -> new ResourceNotFoundException("Student with id " + idStudent + " not found"));
 
         studentMapper.updateModelFromDto(studentDTO, student);
         return studentRepository.save(student);
@@ -56,8 +68,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudent(Long idStudent) {
-        Student student = studentRepository.findById(idStudent)
-                .orElseThrow(() -> new ResourceNotFoundException("Student with id " + idStudent + " not found"));
+        Student student = studentRepository.findById(idStudent).orElseThrow(() -> new ResourceNotFoundException("Student with id " + idStudent + " not found"));
 
         studentRepository.deleteById(idStudent);
     }

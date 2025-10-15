@@ -50,14 +50,46 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/students/status/{status}")
-    public ResponseEntity<?> getAllStudentByStatus(@PathVariable Status status) {
-        List<Student> students = studentService.getStudentByStatus(status);
+//    @GetMapping("/students/status/{status}")
+//    public ResponseEntity<StudentResponse> getAllStudentByStatus(@PathVariable Status status) {
+//        try {
+//            List<Student> students = studentService.getStudentByStatus(status);
+//            return ResponseEntity.ok(new StudentResponse("Success", students));
+//        } catch (ResourceNotFoundException e) {
+//            return ResponseEntity.status(NOT_FOUND)
+//                    .body(new StudentResponse(e.getMessage(), null));
+//        }
+//    }
 
-        if (students.isEmpty()) {
-            return ResponseEntity.status(NOT_FOUND).body(status);
+    @GetMapping("/students/status/{status}")
+    public ResponseEntity<StudentResponse> getAllStudentByStatus(@PathVariable String status) {
+        try {
+            Status statusEnum;
+            try {
+                statusEnum = Status.valueOf(status.toLowerCase());
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest()
+                        .body(new StudentResponse("Invalid status value. Accepted: active, graduate, suspended", null));
+            }
+
+            List<Student> students = studentService.getStudentByStatus(statusEnum);
+            return ResponseEntity.ok(new StudentResponse("Success", students));
+
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new StudentResponse(e.getMessage(), null));
         }
-        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/students/career/{careerId}")
+    public ResponseEntity<?> getAllStudentByCareerId(@PathVariable Long careerId) {
+        try {
+            List<Student> students = studentService.getStudentByCareerId(careerId);
+            return ResponseEntity.ok(new StudentResponse("Success", students));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new StudentResponse(e.getMessage(), null));
+        }
     }
 
     @PutMapping("/student/{idStudent}")

@@ -11,8 +11,8 @@ crud basic
 Search/filter
 
 /api/students/search?name=Douglas ? Filtra estudiantes por nombre
-/api/students/status/{status} ? Devuelve estudiantes según estado
-/api/students/career/{careerId} ? Devuelve estudiantes de una carrera
+/api/students/status/{status} ? Devuelve estudiantes según estado ---> LISTO
+/api/students/career/{careerId} ? Devuelve estudiantes de una carrera ---> EN PROCESO
 /api/students/enrollment?from=2023-01-01&to=2024-01-01 ? Rango de fechas
 /api/students?page=0&size=10&sort=lastName,asc Paginación y ordenamiento
 
