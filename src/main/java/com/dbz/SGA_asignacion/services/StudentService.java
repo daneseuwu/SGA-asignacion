@@ -19,7 +19,7 @@ public interface StudentService {
     //update
 
     Student updateStudent(Long idStudent, StudentDTO studentDTO);
-
+    Student updateStudentStatus(Long idStudent, Status newStudentStatus);
     //delete
 
     void deleteStudent(Long idStudent);

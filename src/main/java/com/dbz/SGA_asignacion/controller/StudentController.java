@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -40,7 +41,7 @@ public class StudentController {
         return ResponseEntity.ok(new StudentResponse("Success", students));
     }
 
-    @GetMapping("/student/{idStudent}")
+    @GetMapping("/students/{idStudent}")
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable Long idStudent) {
         try {
             Student student = studentService.getStudentById(idStudent);
@@ -49,17 +50,6 @@ public class StudentController {
             return ResponseEntity.status(NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
     }
-
-//    @GetMapping("/students/status/{status}")
-//    public ResponseEntity<StudentResponse> getAllStudentByStatus(@PathVariable Status status) {
-//        try {
-//            List<Student> students = studentService.getStudentByStatus(status);
-//            return ResponseEntity.ok(new StudentResponse("Success", students));
-//        } catch (ResourceNotFoundException e) {
-//            return ResponseEntity.status(NOT_FOUND)
-//                    .body(new StudentResponse(e.getMessage(), null));
-//        }
-//    }
 
     @GetMapping("/students/status/{status}")
     public ResponseEntity<StudentResponse> getAllStudentByStatus(@PathVariable String status) {
@@ -92,7 +82,7 @@ public class StudentController {
         }
     }
 
-    @PutMapping("/student/{idStudent}")
+    @PutMapping("/students/{idStudent}")
     public ResponseEntity<?> updatedStudent(@PathVariable Long idStudent, @Valid @RequestBody StudentDTO studentDTO) {
         try {
             Student updatedStudent = studentService.updateStudent(idStudent, studentDTO);
@@ -100,6 +90,13 @@ public class StudentController {
         } catch (Exception e) {
             return ResponseEntity.status(NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
+    }
+
+    @PatchMapping("/student/status/{idStudent}")
+    public ResponseEntity<?> updateStudentStatus(@PathVariable Long idStudent, @RequestBody Map<String, Status> request) {
+        Status status = request.get("status");
+        Student updatedProduct = studentService.updateStudentStatus(idStudent, status);
+        return ResponseEntity.ok(updatedProduct);
     }
 
     @DeleteMapping("/student/{idStudent}")
