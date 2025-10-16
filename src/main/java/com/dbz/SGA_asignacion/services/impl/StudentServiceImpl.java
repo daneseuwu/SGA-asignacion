@@ -45,7 +45,6 @@ public class StudentServiceImpl implements StudentService {
         }
         return students;
     }
-
     @Override
     public List<Student> getStudentByStatus(Status status) {
         List<Student> students = studentRepository.findByStatus(status);
