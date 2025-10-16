@@ -28,8 +28,9 @@ public class Career {
     private Integer duration;
 
     @Column(nullable = false)
-    private String faculty;
-
-    @Column(nullable = false)
     private Boolean active;
+
+    @ManyToOne
+    @JoinColumn(name = "id_faculty", referencedColumnName = "id_faculty")
+    private Faculty faculty;
 }
