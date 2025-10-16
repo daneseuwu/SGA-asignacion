@@ -1,7 +1,7 @@
 package com.dbz.SGA_asignacion.dto;
 
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,22 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CareerDTO {
+public class FacultyDTO {
+
     @NotBlank(message = "Name is required")
     private String name;
 
-    @NotBlank(message = "Code is required")
-    private String code;
-
     @NotBlank(message = "Description is required")
     private String description;
-
-    @NotNull(message = "Duration is required")
-    private Integer duration;
-
-    @NotNull(message = "Faculty ID is required")
-    private Long facultyId;
-
-    @NotNull(message = "Active is required")
-    private Boolean active;
 }
