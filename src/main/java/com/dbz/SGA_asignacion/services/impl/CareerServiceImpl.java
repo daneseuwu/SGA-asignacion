@@ -1,6 +1,8 @@
 package com.dbz.SGA_asignacion.services.impl;
 
+import com.dbz.SGA_asignacion.dto.CareerDTO;
 import com.dbz.SGA_asignacion.exceptions.ResourceNotFoundException;
+import com.dbz.SGA_asignacion.mapper.CareerMapper;
 import com.dbz.SGA_asignacion.model.Career;
 import com.dbz.SGA_asignacion.model.Student;
 import com.dbz.SGA_asignacion.repository.CareerRepository;
@@ -15,6 +17,15 @@ public class CareerServiceImpl implements CareerService {
 
     @Autowired
     private CareerRepository careerRepository;
+
+    @Autowired
+    CareerMapper careerMapper;
+
+    @Override
+    public Career createCareer(CareerDTO careerDTO) {
+        Career career = careerMapper.dtoToModel(careerDTO);
+        return careerRepository.save(career);
+    }
 
     @Override
     public List<Career> getAllCareers() {
