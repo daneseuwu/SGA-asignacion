@@ -90,7 +90,7 @@ public class StudentController {
     }
 
     @PatchMapping("/student/status/{idStudent}")
-    public ResponseEntity<?> updateStudentStatus(@PathVariable Long idStudent, @RequestBody Map<String, String> request) { // 👈 aquí uso String para manejar mejor la validación
+    public ResponseEntity<?> updateStudentStatus(@PathVariable Long idStudent, @RequestBody Map<String, String> request) {
         try {
             String statusValue = request.get("status");
             if (statusValue == null || statusValue.isBlank()) {
