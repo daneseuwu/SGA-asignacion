@@ -1,12 +1,14 @@
 package com.dbz.SGA_asignacion.controller;
 
 
+import com.dbz.SGA_asignacion.dto.CareerDTO;
 import com.dbz.SGA_asignacion.exceptions.ResourceNotFoundException;
 import com.dbz.SGA_asignacion.model.Career;
 import com.dbz.SGA_asignacion.model.Student;
 import com.dbz.SGA_asignacion.response.CareerResponse;
 import com.dbz.SGA_asignacion.response.StudentResponse;
 import com.dbz.SGA_asignacion.services.CareerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,17 @@ public class CareerController {
 
     @Autowired
     private CareerService careerService;
+
+    @PostMapping("/careers")
+    public ResponseEntity<?> createCareer(@Valid @RequestBody CareerDTO careerDTO) {
+        try {
+            Career newCareer = careerService.createCareer(careerDTO);
+            return ResponseEntity.ok(new StudentResponse("Career created successfully", newCareer));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
 
     @GetMapping("/careers")
     public ResponseEntity<CareerResponse> getAllCareers() {
@@ -52,7 +65,7 @@ public class CareerController {
     }
 
     @GetMapping("/faculties/{idFaculty}/careers")
-    public ResponseEntity<CareerResponse>getAllCareerByFacultyId(@PathVariable Long idFaculty){
+    public ResponseEntity<CareerResponse> getAllCareerByFacultyId(@PathVariable Long idFaculty) {
         try {
             List<Career> careers = careerService.getCareerByFacultyId(idFaculty);
             return ResponseEntity.ok(new CareerResponse("Success", careers));
