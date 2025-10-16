@@ -9,24 +9,20 @@ import java.util.List;
 public interface StudentService {
 
     //Crete
-
     Student createStudent(StudentDTO studentDTO);
 
     //read
-
     List<Student> getAllStudents();
 
     //update
-
     Student updateStudent(Long idStudent, StudentDTO studentDTO);
     Student updateStudentStatus(Long idStudent, Status newStudentStatus);
-    //delete
 
+    //delete
     void deleteStudent(Long idStudent);
 
     //optionals
     Student getStudentById(Long idStudent);
-
     List<Student> getStudentByStatus(Status status);
     List<Student> getStudentByCareerId(Long idCareer);
 

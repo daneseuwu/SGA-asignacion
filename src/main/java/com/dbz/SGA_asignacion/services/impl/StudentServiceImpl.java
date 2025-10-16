@@ -78,5 +78,4 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.findById(idStudent).orElseThrow(() -> new ResourceNotFoundException("Student with id " + idStudent + " not found"));
     }
 
-
 }
