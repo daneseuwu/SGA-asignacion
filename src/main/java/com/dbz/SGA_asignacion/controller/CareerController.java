@@ -2,6 +2,7 @@ package com.dbz.SGA_asignacion.controller;
 
 
 import com.dbz.SGA_asignacion.dto.CareerDTO;
+import com.dbz.SGA_asignacion.dto.StudentDTO;
 import com.dbz.SGA_asignacion.exceptions.ResourceNotFoundException;
 import com.dbz.SGA_asignacion.model.Career;
 import com.dbz.SGA_asignacion.model.Student;
@@ -35,6 +36,16 @@ public class CareerController {
 
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/careers/{idCareer}")
+    public ResponseEntity<?> updateCareer(@PathVariable Long idCareer, @Valid @RequestBody CareerDTO careerDTO){
+        try {
+            Career updatedCareer = careerService.updateCareer(idCareer, careerDTO);
+            return ResponseEntity.ok(new CareerResponse("Career updated successfully", updatedCareer));
+        } catch (Exception e) {
+            return ResponseEntity.status(NOT_FOUND).body(new CareerResponse(e.getMessage(), null));
         }
     }
 
