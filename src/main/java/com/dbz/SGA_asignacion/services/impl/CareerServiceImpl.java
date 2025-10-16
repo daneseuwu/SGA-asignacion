@@ -47,6 +47,14 @@ public class CareerServiceImpl implements CareerService {
     }
 
     @Override
+    public Career updateCareer(Long idCareer, CareerDTO careerDTO) {
+        Career career = careerRepository.findById(idCareer).orElseThrow(() -> new ResourceNotFoundException("Career with id " + idCareer + " not found"));
+
+        careerMapper.updateModelFromDto(careerDTO, career);
+        return careerRepository.save(career);
+    }
+
+    @Override
     public void deleteCareer(Long idCareer) {
         careerRepository.findById(idCareer).orElseThrow(() -> new ResourceNotFoundException("Career with id " + idCareer + " not found"));
         careerRepository.deleteById(idCareer);

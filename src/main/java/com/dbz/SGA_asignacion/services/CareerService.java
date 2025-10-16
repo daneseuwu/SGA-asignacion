@@ -18,7 +18,10 @@ public interface CareerService {
     List<Career> getCareerByFacultyId(Long idFaculty);
 
     //    update
+    Career updateCareer(Long idCareer, CareerDTO careerDTO);
+
+    //    delete
     void deleteCareer(Long idCareer);
-//    delete
+
 }
 
