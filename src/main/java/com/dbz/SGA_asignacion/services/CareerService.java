@@ -8,6 +8,8 @@ public interface CareerService {
     //    create
 //    read
     List<Career> getAllCareers();
+
+    Career getCareerById(Long idCareer);
 //    update
 //    delete
 }

@@ -1,5 +1,6 @@
 package com.dbz.SGA_asignacion.services.impl;
 
+import com.dbz.SGA_asignacion.exceptions.ResourceNotFoundException;
 import com.dbz.SGA_asignacion.model.Career;
 import com.dbz.SGA_asignacion.repository.CareerRepository;
 import com.dbz.SGA_asignacion.services.CareerService;
@@ -17,5 +18,10 @@ public class CareerServiceImpl implements CareerService {
     @Override
     public List<Career> getAllCareers() {
         return careerRepository.findAll();
+    }
+
+    @Override
+    public Career getCareerById(Long idCareer) {
+        return careerRepository.findById(idCareer).orElseThrow(() -> new ResourceNotFoundException("Career with id " + idCareer + " not found"));
     }
 }
