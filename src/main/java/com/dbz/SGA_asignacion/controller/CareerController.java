@@ -52,7 +52,7 @@ public class CareerController {
     }
 
     @GetMapping("/faculties/{idFaculty}/careers")
-    public ResponseEntity<CareerResponse>getAllCareerByFaculty(@PathVariable Long idFaculty){
+    public ResponseEntity<CareerResponse>getAllCareerByFacultyId(@PathVariable Long idFaculty){
         try {
             List<Career> careers = careerService.getCareerByFacultyId(idFaculty);
             return ResponseEntity.ok(new CareerResponse("Success", careers));
