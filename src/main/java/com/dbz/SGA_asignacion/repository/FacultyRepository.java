@@ -1,5 +1,8 @@
 package com.dbz.SGA_asignacion.repository;
 
-public interface FacultyRepository {
+import com.dbz.SGA_asignacion.model.Faculty;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FacultyRepository extends JpaRepository<Faculty, Long> {
 
 }
