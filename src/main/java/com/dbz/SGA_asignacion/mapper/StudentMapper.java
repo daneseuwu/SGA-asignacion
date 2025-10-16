@@ -30,7 +30,6 @@ public class StudentMapper {
             student.setCareer(career);
         }
 
-
         return student;
     }
 
