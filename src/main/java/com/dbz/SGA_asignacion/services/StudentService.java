@@ -25,6 +25,6 @@ public interface StudentService {
     Student getStudentById(Long idStudent);
     List<Student> getStudentByStatus(Status status);
     List<Student> getStudentByCareerId(Long idCareer);
-
+    List<Student> getStudentByCode(String code);
 }
 

@@ -89,7 +89,7 @@ public class StudentController {
         }
     }
 
-    @PatchMapping("/student/status/{idStudent}")
+    @PatchMapping("/students/status/{idStudent}")
     public ResponseEntity<?> updateStudentStatus(@PathVariable Long idStudent, @RequestBody Map<String, String> request) {
         try {
             String statusValue = request.get("status");
@@ -114,13 +114,23 @@ public class StudentController {
         }
     }
 
-    @DeleteMapping("/student/{idStudent}")
+    @DeleteMapping("/students/{idStudent}")
     public ResponseEntity<?> deleteStudent(@PathVariable Long idStudent) {
         try {
             studentService.deleteStudent(idStudent);
             return ResponseEntity.ok(new StudentResponse("Student deleted successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/students/search")
+    public ResponseEntity<?>getStudentByCode(@RequestParam("code") String code){
+        try {
+            List<Student> students = studentService.getStudentByCode(code);
+            return ResponseEntity.ok(new StudentResponse("Success", students));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
     }
 

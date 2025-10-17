@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    Optional<Student> findByStudentCode(String studentCode);
+    List<Student> findByStudentCode(String code);
 
     List<Student> findByStatus(Status status);
 

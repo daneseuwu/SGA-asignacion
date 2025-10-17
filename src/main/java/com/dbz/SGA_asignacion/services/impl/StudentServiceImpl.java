@@ -45,6 +45,17 @@ public class StudentServiceImpl implements StudentService {
         }
         return students;
     }
+
+    @Override
+    public List<Student> getStudentByCode(String code) {
+        List<Student> students = studentRepository.findByStudentCode(code);
+        if (students.isEmpty()) {
+            throw new ResourceNotFoundException("No students found with status: " + code);
+        }
+        return students;
+    }
+
+
     @Override
     public List<Student> getStudentByStatus(Status status) {
         List<Student> students = studentRepository.findByStatus(status);
