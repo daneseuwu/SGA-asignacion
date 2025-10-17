@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -42,7 +43,7 @@ public class Student {
     private LocalDate birthDate;
 
     @CreatedDate
-    @Column(name = "enrollment_date" , nullable = false, updatable = false)
+    @Column(name = "enrollment_date", nullable = false, updatable = false)
     private LocalDateTime enrollmentDate;
 
     @Enumerated(EnumType.STRING)
@@ -52,4 +53,12 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "id_career", referencedColumnName = "id_career")
     private Career career;
+
+    @ManyToMany
+    @JoinTable(
+            name = "student_subject",
+            joinColumns = @JoinColumn(name = "id_student"),
+            inverseJoinColumns = @JoinColumn(name = "id_subject")
+    )
+    private List<Subject> subjects;
 }
