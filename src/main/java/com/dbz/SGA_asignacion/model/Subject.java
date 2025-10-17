@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -14,7 +16,7 @@ public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_subject")
-    private Long id;
+    private Long idSubject;
 
     @Column(nullable = false)
     private String name;
@@ -33,4 +35,11 @@ public class Subject {
 
     @Column(nullable = false)
     private Boolean mandatory;
+
+    @ManyToOne
+    @JoinColumn(name = "id_professor", referencedColumnName = "id_professor")
+    private Professor professor;
+
+//    @ManyToMany(mappedBy = "subjects")
+//    private List<Student> students;
 }
