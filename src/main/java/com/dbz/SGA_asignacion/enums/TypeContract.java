@@ -1,5 +1,5 @@
 package com.dbz.SGA_asignacion.enums;
 
-public enum Contract {
+public enum TypeContract {
     full_time, part_time, class_hour;
 }

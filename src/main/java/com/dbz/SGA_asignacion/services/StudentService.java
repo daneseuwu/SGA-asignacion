@@ -16,6 +16,7 @@ public interface StudentService {
 
     //update
     Student updateStudent(Long idStudent, StudentDTO studentDTO);
+
     Student updateStudentStatus(Long idStudent, Status newStudentStatus);
 
     //delete
@@ -23,8 +24,11 @@ public interface StudentService {
 
     //optionals
     Student getStudentById(Long idStudent);
+
     List<Student> getStudentByStatus(Status status);
+
     List<Student> getStudentByCareerId(Long idCareer);
+
     List<Student> getStudentByCode(String code);
 }
 

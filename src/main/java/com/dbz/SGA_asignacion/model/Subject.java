@@ -37,9 +37,11 @@ public class Subject {
     private Boolean mandatory;
 
     @ManyToOne
-    @JoinColumn(name = "id_professor", referencedColumnName = "id_professor")
+    @JoinColumn(
+            name = "id_professor",
+            referencedColumnName = "id_professor",
+            nullable = true,
+            foreignKey = @ForeignKey(name = "fk_subject_professor")
+    )
     private Professor professor;
-
-//    @ManyToMany(mappedBy = "subjects")
-//    private List<Student> students;
 }

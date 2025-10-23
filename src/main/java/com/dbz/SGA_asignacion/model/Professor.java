@@ -1,7 +1,7 @@
 package com.dbz.SGA_asignacion.model;
 
-import com.dbz.SGA_asignacion.enums.Contract;
-import com.dbz.SGA_asignacion.enums.Status;
+import com.dbz.SGA_asignacion.enums.StatusProfessor;
+import com.dbz.SGA_asignacion.enums.TypeContract;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,17 +23,17 @@ public class Professor {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(nullable = false)
+    private String code;
+
     @Column(name = "document_identity", nullable = false)
     private String documentIdentity;
-
-    @Column(name = "type_document", nullable = false)
-    private String typeDocument;
 
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String birthdate;
+    @Column(name = "birth_date", nullable = false)
+    private String birthDate;
 
     @Column(nullable = false)
     private String genre;
@@ -44,21 +44,15 @@ public class Professor {
     @Column(nullable = false)
     private String phone;
 
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
-
     @Column(nullable = false)
     private String specialty;
 
-    @Column(name = "entry_date", nullable = false)
-    private String entryDate;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "type_contract", nullable = false)
-    private Contract typeContract;
+    private TypeContract typeContract;
 
     @Column(nullable = false)
-    private Boolean status;
+    private StatusProfessor status;
 
     @ManyToOne
     @JoinColumn(name = "id_faculty", referencedColumnName = "id_faculty")

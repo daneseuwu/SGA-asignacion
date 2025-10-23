@@ -1,7 +1,6 @@
 package com.dbz.SGA_asignacion.dto;
 
 import com.dbz.SGA_asignacion.enums.Status;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
