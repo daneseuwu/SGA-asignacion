@@ -60,5 +60,5 @@ public class Student {
             joinColumns = @JoinColumn(name = "id_student"),
             inverseJoinColumns = @JoinColumn(name = "id_subject")
     )
-    private List<Subject> subjects;
+    private List<Course> course;
 }

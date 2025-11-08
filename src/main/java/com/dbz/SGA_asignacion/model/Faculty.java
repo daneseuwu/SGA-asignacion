@@ -22,7 +22,4 @@ public class Faculty {
 
     @Column(nullable = false)
     private String description;
-
-//    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Career> careers;
 }

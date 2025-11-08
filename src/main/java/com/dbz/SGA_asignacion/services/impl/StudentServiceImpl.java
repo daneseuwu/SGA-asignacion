@@ -68,7 +68,6 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student updateStudent(Long idStudent, StudentDTO studentDTO) {
         Student student = studentRepository.findById(idStudent).orElseThrow(() -> new ResourceNotFoundException("Student with id " + idStudent + " not found"));
-
         studentMapper.updateModelFromDto(studentDTO, student);
         return studentRepository.save(student);
 

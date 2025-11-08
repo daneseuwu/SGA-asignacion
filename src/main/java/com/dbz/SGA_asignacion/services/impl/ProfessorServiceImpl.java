@@ -4,6 +4,7 @@ import com.dbz.SGA_asignacion.dto.ProfessorDTO;
 import com.dbz.SGA_asignacion.exceptions.ResourceNotFoundException;
 import com.dbz.SGA_asignacion.mapper.ProfessorMapper;
 import com.dbz.SGA_asignacion.model.Professor;
+import com.dbz.SGA_asignacion.model.Student;
 import com.dbz.SGA_asignacion.repository.ProfessorRepository;
 import com.dbz.SGA_asignacion.services.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,13 @@ public class ProfessorServiceImpl implements ProfessorService {
     @Override
     public Professor createProfessor(ProfessorDTO professorDTO) {
         Professor professor = professorMapper.dtToModel(professorDTO);
+        return professorRepository.save(professor);
+    }
+
+    @Override
+    public Professor updateProfessor(Long idProfessor, ProfessorDTO professorDTO) {
+        Professor professor = professorRepository.findById(idProfessor).orElseThrow(() -> new ResourceNotFoundException("Professor with id " + idProfessor + " not found"));
+        professorMapper.updateModelFromDto(professorDTO, professor);
         return professorRepository.save(professor);
     }
 

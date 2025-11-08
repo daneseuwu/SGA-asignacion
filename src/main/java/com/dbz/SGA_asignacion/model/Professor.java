@@ -59,5 +59,3 @@ public class Professor {
     private Faculty faculty;
 
 }
-
-//profile

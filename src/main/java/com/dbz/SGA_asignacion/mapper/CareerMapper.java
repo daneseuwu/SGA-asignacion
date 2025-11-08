@@ -44,7 +44,7 @@ public class CareerMapper {
         return dto;
     }
 
-    public CareerDTO updateModelFromDto(CareerDTO dto, Career career) {
+    public void updateModelFromDto(CareerDTO dto, Career career) {
 
         career.setName(dto.getName());
         career.setCode(dto.getCode());
@@ -57,7 +57,6 @@ public class CareerMapper {
                     .orElseThrow(() -> new RuntimeException("Career not found with id: " + dto.getFacultyId()));
             career.setFaculty(faculty);
         }
-        return dto;
     }
 
 }

@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -43,5 +42,5 @@ public class Enrollment {
 
     @ManyToOne
     @JoinColumn(name = "id_subject", referencedColumnName = "id_subject", nullable = false)
-    private Subject subject;
+    private Course course;
 }

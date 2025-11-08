@@ -25,13 +25,25 @@ public class ProfessorController {
     ProfessorService professorService;
 
     @PostMapping("/professors")
-    public ResponseEntity<?> createProfessor(@Valid @RequestBody ProfessorDTO professorDTO ){
+    public ResponseEntity<?> createProfessor(@Valid @RequestBody ProfessorDTO professorDTO) {
         try {
             Professor newProfessor = professorService.createProfessor(professorDTO);
             return ResponseEntity.ok(new ProfessorResponse("Professor created successfully", newProfessor));
 
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+
+        }
+    }
+
+    @PutMapping("/professors/{idProfessor}")
+    public ResponseEntity<?> updateProfessor(@PathVariable Long idProfessor, @Valid  @RequestBody ProfessorDTO professorDTO) {
+        try {
+            Professor updatedProfessor = professorService.updateProfessor(idProfessor, professorDTO);
+            return ResponseEntity.ok(new ProfessorResponse("Professor updated successfully", updatedProfessor));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new ProfessorResponse(e.getMessage(), null));
 
         }
     }
