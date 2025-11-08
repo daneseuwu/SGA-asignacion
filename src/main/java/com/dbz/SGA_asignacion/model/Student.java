@@ -58,7 +58,7 @@ public class Student {
     @JoinTable(
             name = "student_subject",
             joinColumns = @JoinColumn(name = "id_student"),
-            inverseJoinColumns = @JoinColumn(name = "id_subject")
+            inverseJoinColumns = @JoinColumn(name = "id_course")
     )
     private List<Course> course;
 }

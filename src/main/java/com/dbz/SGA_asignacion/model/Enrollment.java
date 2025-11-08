@@ -41,6 +41,6 @@ public class Enrollment {
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "id_subject", referencedColumnName = "id_subject", nullable = false)
+    @JoinColumn(name = "id_course", referencedColumnName = "id_course", nullable = false)
     private Course course;
 }

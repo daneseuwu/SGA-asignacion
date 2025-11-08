@@ -3,7 +3,6 @@ package com.dbz.SGA_asignacion.controller;
 import com.dbz.SGA_asignacion.dto.ProfessorDTO;
 import com.dbz.SGA_asignacion.exceptions.ResourceNotFoundException;
 import com.dbz.SGA_asignacion.model.Professor;
-import com.dbz.SGA_asignacion.model.Student;
 import com.dbz.SGA_asignacion.response.ProfessorResponse;
 import com.dbz.SGA_asignacion.response.StudentResponse;
 import com.dbz.SGA_asignacion.services.ProfessorService;
