@@ -51,6 +51,7 @@ public class Professor {
     @Column(name = "type_contract", nullable = false)
     private TypeContract typeContract;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusProfessor status;
 
