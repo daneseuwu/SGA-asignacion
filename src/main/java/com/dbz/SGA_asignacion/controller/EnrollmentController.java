@@ -27,6 +27,12 @@ public class EnrollmentController {
         return ResponseEntity.ok(new EnrollmentResponse("Success", enrollments));
     }
 
+    @GetMapping("/enrollments/student/{idStudent}")
+    public ResponseEntity<?>getEnrollmentsByStudentId(@PathVariable Long idStudent){
+        List<Enrollment> enrollments = enrollmentService.getEnrollmentByIdStudent(idStudent);
+        return ResponseEntity.ok(enrollments);
+    }
+
     @GetMapping("/enrollments/{idEnrollment}")
     public ResponseEntity<?> getEnrollmentById(@PathVariable Long idEnrollment){
         try {

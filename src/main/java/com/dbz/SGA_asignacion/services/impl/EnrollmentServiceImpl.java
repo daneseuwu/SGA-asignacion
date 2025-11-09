@@ -21,6 +21,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
     @Override
+    public List<Enrollment> getEnrollmentByIdStudent(Long idStudent) {
+        return enrollmentRepository.findByStudentIdStudent(idStudent);
+    }
+
+    @Override
     public Enrollment getEnrollmentById(Long idEnrollment) {
         return enrollmentRepository.findById(idEnrollment).orElseThrow(() -> new ResourceNotFoundException("Enrollment with id " + idEnrollment + " not found"));
     }
