@@ -1,5 +1,6 @@
 package com.dbz.SGA_asignacion.services.impl;
 
+import com.dbz.SGA_asignacion.dto.GradeDTO;
 import com.dbz.SGA_asignacion.model.Grade;
 import com.dbz.SGA_asignacion.repository.GradeRepository;
 import com.dbz.SGA_asignacion.services.GradeService;
@@ -15,12 +16,12 @@ public class GradeServiceImp implements GradeService {
     private GradeRepository gradeRepository;
 
     @Override
-    public List<Grade> getAllGradesByIdStudent(Long idStudent) {
-        return gradeRepository.findByEnrollmentStudentIdStudent(idStudent);
+    public List<GradeDTO> getAllGradesByIdStudent(Long idStudent) {
+        return gradeRepository.findGradesByIdStudent(idStudent);
     }
 
     @Override
-    public List<Grade> getAllGradesByIdCourse(Long idCourse) {
-        return gradeRepository.findByEnrollmentCourseIdCourse(idCourse);
+    public List<GradeDTO> getAllGradesByIdCourse(Long idCourse) {
+        return gradeRepository.findGradesByIdCourse(idCourse);
     }
 }
