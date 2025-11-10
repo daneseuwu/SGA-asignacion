@@ -1,5 +1,6 @@
 package com.dbz.SGA_asignacion.controller;
 
+import com.dbz.SGA_asignacion.dto.GradeDTO;
 import com.dbz.SGA_asignacion.response.GradeResponse;
 import com.dbz.SGA_asignacion.services.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,8 @@ public class GradeController {
 
     @GetMapping("/grades/student/{idStudent}")
     public ResponseEntity<?>getGradesByStudentId(@PathVariable Long idStudent){
-        List<?> gradesStudent = gradeService.getAllGradesByIdStudent(idStudent);
+        List<GradeDTO> gradesStudent = gradeService.getAllGradesByIdStudent(idStudent);
         return ResponseEntity.ok(new GradeResponse("Success", gradesStudent));
-
     }
 
     @GetMapping("/grades/course/{idCourse}")
