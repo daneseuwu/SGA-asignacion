@@ -2,7 +2,7 @@ name: Deploy Spring Boot to AWS
 
 on:
   push:
-    branches: [ develop-features ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -168,4 +168,3 @@ jobs:
           rm -f private_key.pem
           
           echo "✅ Aplicación desplegada en http://${HOST}:8080"
-          #test
