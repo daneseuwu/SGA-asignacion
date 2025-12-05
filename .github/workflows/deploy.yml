@@ -2,7 +2,7 @@ name: Deploy Spring Boot to AWS
 
 on:
   push:
-    branches: [ main ]
+    branches: [ develop-features ]
   workflow_dispatch:
 
 jobs:
