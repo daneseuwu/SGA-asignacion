@@ -2,7 +2,7 @@ name: Deploy Spring Boot to AWS
 
 on:
   push:
-    branches: [develop-features]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -67,11 +67,16 @@ jobs:
                 --protocol tcp --port 8080 --cidr 0.0.0.0/0
             fi
           
-            # Crear key pair si no existe
-            aws ec2 describe-key-pairs --key-names springboot-key 2>/dev/null || \
-              aws ec2 import-key-pair \
-                --key-name springboot-key \
-                --public-key-material fileb://<(echo "${{ secrets.SSH_PUBLIC_KEY }}")
+            # Usar key pair existente o crear uno nuevo
+            KEY_NAME="${{ secrets.KEY_PAIR_NAME }}"
+            if [ -z "$KEY_NAME" ]; then
+              KEY_NAME="springboot-key"
+              # Crear key pair si no existe
+              aws ec2 describe-key-pairs --key-names $KEY_NAME 2>/dev/null || \
+                aws ec2 import-key-pair \
+                  --key-name $KEY_NAME \
+                  --public-key-material fileb://<(echo "${{ secrets.SSH_PUBLIC_KEY }}")
+            fi
           
             # Obtener AMI de Ubuntu más reciente
             AMI_ID=$(aws ec2 describe-images \
@@ -84,7 +89,7 @@ jobs:
             INSTANCE_ID=$(aws ec2 run-instances \
               --image-id $AMI_ID \
               --instance-type t3.small \
-              --key-name springboot-key \
+              --key-name ${KEY_NAME:-springboot-key} \
               --security-group-ids $SG_ID \
               --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=springboot-app}]' \
               --user-data '#!/bin/bash
