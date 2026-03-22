@@ -4,7 +4,6 @@ import com.dbz.SGA_asignacion.dto.ProfessorDTO;
 import com.dbz.SGA_asignacion.exceptions.ResourceNotFoundException;
 import com.dbz.SGA_asignacion.model.Professor;
 import com.dbz.SGA_asignacion.response.ProfessorResponse;
-import com.dbz.SGA_asignacion.response.StudentResponse;
 import com.dbz.SGA_asignacion.services.ProfessorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +23,13 @@ public class ProfessorController {
     ProfessorService professorService;
 
     @PostMapping("/professors")
-    public ResponseEntity<?> createProfessor(@Valid @RequestBody ProfessorDTO professorDTO) {
+    public ResponseEntity<ProfessorResponse> createProfessor(@Valid @RequestBody ProfessorDTO professorDTO) {
         try {
             Professor newProfessor = professorService.createProfessor(professorDTO);
             return ResponseEntity.ok(new ProfessorResponse("Professor created successfully", newProfessor));
 
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ProfessorResponse("Error: " + e.getMessage(), null));
 
         }
     }
@@ -48,9 +47,9 @@ public class ProfessorController {
     }
 
     @GetMapping("/professors")
-    public ResponseEntity<?> getAllProfessors() {
+    public ResponseEntity<ProfessorResponse> getAllProfessors() {
         List<Professor> professors = professorService.getAllProfessor();
-        return ResponseEntity.ok(new StudentResponse("Success", professors));
+        return ResponseEntity.ok(new ProfessorResponse("Success", professors));
     }
 
     @GetMapping("/professors/{idProfessor}")
@@ -87,7 +86,7 @@ public class ProfessorController {
     @GetMapping("/professors/faculty/{idFaculty}")
     public ResponseEntity<?> getProfessorsByIdFaculty(@PathVariable Long idFaculty) {
         try {
-            List<Professor> professors = professorService.getStudentByIdFaculty(idFaculty);
+            List<Professor> professors = professorService.getProfessorByFacultyId(idFaculty);
             return ResponseEntity.ok(new ProfessorResponse("Success", professors));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ProfessorResponse(e.getMessage(), null));

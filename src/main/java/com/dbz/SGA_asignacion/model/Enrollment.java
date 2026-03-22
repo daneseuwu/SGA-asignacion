@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -27,7 +28,8 @@ public class Enrollment {
     @Column(name = "status_enrollment", nullable = false)
     private StatusEnrollment estadoEnrollment;
 
-    @Column(name = "inscription_date")
+    @CreatedDate
+    @Column(name = "inscription_date", nullable = false, updatable = false)
     private LocalDateTime inscriptionDate;
 
     @Column(nullable = false)

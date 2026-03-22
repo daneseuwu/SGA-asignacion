@@ -14,6 +14,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     List<Student> findByStatus(Status status);
 
-    @Query("SELECT s FROM Student s WHERE s.career.id = :id_career")
+    @Query("SELECT s FROM Student s WHERE s.career.idCareer = :id_career")
     List<Student> getStudentByCareerId(@Param("id_career") Long idCareer);
 }

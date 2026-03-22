@@ -23,7 +23,7 @@ public class CareerMapper {
 
         if (dto.getFacultyId() != null) {
             Faculty faculty = facultyRepository.findById(dto.getFacultyId())
-                    .orElseThrow(() -> new RuntimeException("Career not found with id: " + dto.getFacultyId()));
+                    .orElseThrow(() -> new RuntimeException("Faculty not found with id: " + dto.getFacultyId()));
             career.setFaculty(faculty);
         }
         return career;
@@ -54,7 +54,7 @@ public class CareerMapper {
 
         if (dto.getFacultyId() != null) {
             Faculty faculty = facultyRepository.findById(dto.getFacultyId())
-                    .orElseThrow(() -> new RuntimeException("Career not found with id: " + dto.getFacultyId()));
+                    .orElseThrow(() -> new RuntimeException("Faculty not found with id: " + dto.getFacultyId()));
             career.setFaculty(faculty);
         }
     }

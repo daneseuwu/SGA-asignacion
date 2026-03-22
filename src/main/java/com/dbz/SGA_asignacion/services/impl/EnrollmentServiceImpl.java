@@ -22,7 +22,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public List<Enrollment> getEnrollmentByIdStudent(Long idStudent) {
-        return enrollmentRepository.findByStudentIdStudent(idStudent);
+        List<Enrollment> enrollments = enrollmentRepository.findByStudentIdStudent(idStudent);
+        if (enrollments.isEmpty()) {
+            throw new ResourceNotFoundException("No enrollments found for student ID " + idStudent);
+        }
+        return enrollments;
     }
 
     @Override
@@ -32,12 +36,22 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public Enrollment createEnrollment(Enrollment enrollment) {
-        return null;
+        return enrollmentRepository.save(enrollment);
     }
 
     @Override
     public Enrollment updateEnrollment(Long idEnrollment, Enrollment enrollment) {
-        return null;
+        Enrollment existingEnrollment = enrollmentRepository.findById(idEnrollment)
+                .orElseThrow(() -> new ResourceNotFoundException("Enrollment with id " + idEnrollment + " not found"));
+
+        existingEnrollment.setSection(enrollment.getSection());
+        existingEnrollment.setEstadoEnrollment(enrollment.getEstadoEnrollment());
+        existingEnrollment.setNotaFinal(enrollment.getNotaFinal());
+        existingEnrollment.setAttendance(enrollment.getAttendance());
+        existingEnrollment.setStudent(enrollment.getStudent());
+        existingEnrollment.setCourse(enrollment.getCourse());
+
+        return enrollmentRepository.save(existingEnrollment);
     }
 
     @Override

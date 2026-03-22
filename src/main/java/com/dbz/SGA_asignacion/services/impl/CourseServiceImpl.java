@@ -38,7 +38,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course updateCourse(Long courseId, CourseDTO courseDTO) {
-      Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Student with id " + courseId + " not found"));
+      Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course with id " + courseId + " not found"));
       courseMapper.updateModelFromDto(courseDTO, course);
       return courseRepository.save(course);
     }
@@ -50,12 +50,20 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getAllCoursesByCareerId(Long carerId) {
-        return List.of();
+    public List<Course> getAllCoursesByCareerId(Long careerId) {
+        List<Course> courses = courseRepository.findByCareerId(careerId);
+        if (courses.isEmpty()) {
+            throw new ResourceNotFoundException("No courses found for career ID " + careerId);
+        }
+        return courses;
     }
 
     @Override
     public List<Course> getAllCoursesByProfessorId(Long professorId) {
-        return List.of();
+        List<Course> courses = courseRepository.findByProfessorId(professorId);
+        if (courses.isEmpty()) {
+            throw new ResourceNotFoundException("No courses found for professor ID " + professorId);
+        }
+        return courses;
     }
 }

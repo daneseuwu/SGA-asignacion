@@ -2,12 +2,9 @@ package com.dbz.SGA_asignacion.controller;
 
 
 import com.dbz.SGA_asignacion.dto.CareerDTO;
-import com.dbz.SGA_asignacion.dto.StudentDTO;
 import com.dbz.SGA_asignacion.exceptions.ResourceNotFoundException;
 import com.dbz.SGA_asignacion.model.Career;
-import com.dbz.SGA_asignacion.model.Student;
 import com.dbz.SGA_asignacion.response.CareerResponse;
-import com.dbz.SGA_asignacion.response.StudentResponse;
 import com.dbz.SGA_asignacion.services.CareerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +26,18 @@ public class CareerController {
     private CareerService careerService;
 
     @PostMapping("/careers")
-    public ResponseEntity<?> createCareer(@Valid @RequestBody CareerDTO careerDTO) {
+    public ResponseEntity<CareerResponse> createCareer(@Valid @RequestBody CareerDTO careerDTO) {
         try {
             Career newCareer = careerService.createCareer(careerDTO);
-            return ResponseEntity.ok(new StudentResponse("Career created successfully", newCareer));
+            return ResponseEntity.ok(new CareerResponse("Career created successfully", newCareer));
 
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CareerResponse("Error: " + e.getMessage(), null));
         }
     }
 
     @PutMapping("/careers/{idCareer}")
-    public ResponseEntity<?> updateCareer(@PathVariable Long idCareer, @Valid @RequestBody CareerDTO careerDTO){
+    public ResponseEntity<CareerResponse> updateCareer(@PathVariable Long idCareer, @Valid @RequestBody CareerDTO careerDTO){
         try {
             Career updatedCareer = careerService.updateCareer(idCareer, careerDTO);
             return ResponseEntity.ok(new CareerResponse("Career updated successfully", updatedCareer));
@@ -66,12 +63,12 @@ public class CareerController {
     }
 
     @DeleteMapping("/careers/{idCareer}")
-    public ResponseEntity<?> deleteCareer(@PathVariable Long idCareer) {
+    public ResponseEntity<CareerResponse> deleteCareer(@PathVariable Long idCareer) {
         try {
             careerService.deleteCareer(idCareer);
-            return ResponseEntity.ok(new StudentResponse("Career deleted successfully", null));
+            return ResponseEntity.ok(new CareerResponse("Career deleted successfully", null));
         } catch (Exception e) {
-            return ResponseEntity.status(NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
+            return ResponseEntity.status(NOT_FOUND).body(new CareerResponse(e.getMessage(), null));
         }
     }
 

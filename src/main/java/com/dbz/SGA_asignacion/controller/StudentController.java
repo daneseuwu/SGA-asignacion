@@ -31,7 +31,7 @@ public class StudentController {
             return ResponseEntity.ok(new StudentResponse("Student created successfully", newStudent));
 
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new StudentResponse("Error: " + e.getMessage(), null));
         }
     }
 
@@ -56,7 +56,7 @@ public class StudentController {
         try {
             Status statusEnum;
             try {
-                statusEnum = Status.valueOf(status.toLowerCase());
+                statusEnum = Status.valueOf(status.trim().toLowerCase());
             } catch (IllegalArgumentException e) {
                 return ResponseEntity.badRequest().body(new StudentResponse("Invalid status value. Accepted: active, graduate, suspended", null));
             }
@@ -99,7 +99,7 @@ public class StudentController {
 
             Status statusEnum;
             try {
-                statusEnum = Status.valueOf(statusValue.toLowerCase());
+                statusEnum = Status.valueOf(statusValue.trim().toLowerCase());
             } catch (IllegalArgumentException e) {
                 return ResponseEntity.badRequest().body(new StudentResponse("Invalid status value. Accepted: active, graduate, suspended", null));
             }

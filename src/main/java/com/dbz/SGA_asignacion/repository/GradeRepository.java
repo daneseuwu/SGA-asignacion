@@ -13,7 +13,7 @@ import java.util.List;
 public interface GradeRepository extends JpaRepository<Grade, Long> {
 
     @Query("SELECT new com.dbz.SGA_asignacion.dto.GradeDTO(g.idGrade, g.evaluationName, g.score, g.maxScore, g.percentage, g.evaluationDate, " +
-            "CAST(g.status as string), CONCAT(s.firstName, ' ', s.lastName), c.name) " +
+            "g.status, CONCAT(s.firstName, ' ', s.lastName), c.name) " +
             "FROM Grade g " +
             "JOIN g.enrollment e " +
             "JOIN e.student s " +

@@ -30,11 +30,11 @@ public class CourseController {
             return ResponseEntity.ok(new CourseResponse("Course created successfully", newCourse));
 
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CourseResponse("Error: " + e.getMessage(), null));
         }
     }
 
-    @PutMapping("/courses/idCourse")
+    @PutMapping("/courses/{idCourse}")
     public ResponseEntity<?> updateCourse(@Valid @PathVariable Long idCourse, @RequestBody CourseDTO courseDTO ){
         try{
             Course updateCourse = courseService.updateCourse(idCourse, courseDTO);
