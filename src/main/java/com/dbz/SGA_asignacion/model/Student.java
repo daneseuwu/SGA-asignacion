@@ -1,6 +1,7 @@
 package com.dbz.SGA_asignacion.model;
 
 import com.dbz.SGA_asignacion.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,6 +56,7 @@ public class Student {
     private Career career;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "student_subject",
             joinColumns = @JoinColumn(name = "id_student"),

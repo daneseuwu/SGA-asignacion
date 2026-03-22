@@ -4,6 +4,7 @@ import com.dbz.SGA_asignacion.dto.StudentDTO;
 import com.dbz.SGA_asignacion.enums.Status;
 import com.dbz.SGA_asignacion.exceptions.ResourceNotFoundException;
 import com.dbz.SGA_asignacion.model.Student;
+import com.dbz.SGA_asignacion.mapper.StudentMapper;
 import com.dbz.SGA_asignacion.response.StudentResponse;
 import com.dbz.SGA_asignacion.services.StudentService;
 import jakarta.validation.Valid;
@@ -24,11 +25,14 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private StudentMapper studentMapper;
+
     @PostMapping("/students")
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
         try {
             Student newStudent = studentService.createStudent(studentDTO);
-            return ResponseEntity.ok(new StudentResponse("Student created successfully", newStudent));
+            return ResponseEntity.ok(new StudentResponse("Student created successfully", studentMapper.modelToDto(newStudent)));
 
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new StudentResponse("Error: " + e.getMessage(), null));
@@ -38,14 +42,17 @@ public class StudentController {
     @GetMapping("/students")
     public ResponseEntity<StudentResponse> getAllStudents() {
         List<Student> students = studentService.getAllStudents();
-        return ResponseEntity.ok(new StudentResponse("Success", students));
+        List<StudentDTO> studentDTOs = students.stream()
+                .map(studentMapper::modelToDto)
+                .toList();
+        return ResponseEntity.ok(new StudentResponse("Success", studentDTOs));
     }
 
     @GetMapping("/students/{idStudent}")
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable Long idStudent) {
         try {
             Student student = studentService.getStudentById(idStudent);
-            return ResponseEntity.ok(new StudentResponse("Success", student));
+            return ResponseEntity.ok(new StudentResponse("Success", studentMapper.modelToDto(student)));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
@@ -62,7 +69,10 @@ public class StudentController {
             }
 
             List<Student> students = studentService.getStudentByStatus(statusEnum);
-            return ResponseEntity.ok(new StudentResponse("Success", students));
+            List<StudentDTO> studentDTOs = students.stream()
+                    .map(studentMapper::modelToDto)
+                    .toList();
+            return ResponseEntity.ok(new StudentResponse("Success", studentDTOs));
 
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
@@ -73,7 +83,10 @@ public class StudentController {
     public ResponseEntity<?> getAllStudentByCareerId(@PathVariable Long careerId) {
         try {
             List<Student> students = studentService.getStudentByCareerId(careerId);
-            return ResponseEntity.ok(new StudentResponse("Success", students));
+            List<StudentDTO> studentDTOs = students.stream()
+                    .map(studentMapper::modelToDto)
+                    .toList();
+            return ResponseEntity.ok(new StudentResponse("Success", studentDTOs));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
@@ -83,7 +96,7 @@ public class StudentController {
     public ResponseEntity<?> updatedStudent(@PathVariable Long idStudent, @Valid @RequestBody StudentDTO studentDTO) {
         try {
             Student updatedStudent = studentService.updateStudent(idStudent, studentDTO);
-            return ResponseEntity.ok(new StudentResponse("Student updated successfully", updatedStudent));
+            return ResponseEntity.ok(new StudentResponse("Student updated successfully", studentMapper.modelToDto(updatedStudent)));
         } catch (Exception e) {
             return ResponseEntity.status(NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
@@ -105,7 +118,7 @@ public class StudentController {
             }
 
             Student updatedStudent = studentService.updateStudentStatus(idStudent, statusEnum);
-            return ResponseEntity.ok(new StudentResponse("Status updated successfully", updatedStudent));
+            return ResponseEntity.ok(new StudentResponse("Status updated successfully", studentMapper.modelToDto(updatedStudent)));
 
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
@@ -128,7 +141,10 @@ public class StudentController {
     public ResponseEntity<?>getStudentByCode(@RequestParam("code") String code){
         try {
             List<Student> students = studentService.getStudentByCode(code);
-            return ResponseEntity.ok(new StudentResponse("Success", students));
+            List<StudentDTO> studentDTOs = students.stream()
+                    .map(studentMapper::modelToDto)
+                    .toList();
+            return ResponseEntity.ok(new StudentResponse("Success", studentDTOs));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StudentResponse(e.getMessage(), null));
         }
